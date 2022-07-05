@@ -3,7 +3,7 @@ project(learn_vulkan)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(${PROJECT_NAME} src/main.cpp)
+add_executable(${PROJECT_NAME} src/main.cpp src/lvk/canvas.cpp src/lvk/canvas.hpp src/lvk/app.cpp src/lvk/app.hpp)
 
 find_package(Vulkan REQUIRED)
 #target_include_directories(${PROJECT_NAME} PUBLIC ${Vulkan_INCLUDE_DIRS})
