@@ -3,6 +3,8 @@
 .idea/
 .vscode/
 
-# CMake
+# Binaries
 cmake*/
-build*/
+build/
+bin/
+spv/
