@@ -4,7 +4,7 @@ namespace lvk
 {
 	void app::run()
 	{
-		while (!_canvas.should_close())
+		while (!window.should_close())
 		{
 			glfwPollEvents();
 		}

@@ -1,3 +1,4 @@
+#include <stdexcept>
 #include "canvas.hpp"
 
 namespace lvk
@@ -30,6 +31,14 @@ namespace lvk
 	bool canvas::should_close()
 	{
 		return glfwWindowShouldClose(window);
+	}
+	void canvas::create_window_surface(VkInstance instance, VkSurfaceKHR* surface)
+	{
+		if (glfwCreateWindowSurface(instance, window, nullptr, surface) != VK_SUCCESS)
+		{
+			throw std::runtime_error("failed to create window surface");
+		}
+
 	}
 }
 

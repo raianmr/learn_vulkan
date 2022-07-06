@@ -24,5 +24,6 @@ namespace lvk
 		canvas& operator=(const canvas&) = delete;
 
 		bool should_close();
+		void create_window_surface(VkInstance instance, VkSurfaceKHR* surface);
 	};
 }

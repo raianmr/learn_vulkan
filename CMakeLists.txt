@@ -21,6 +21,11 @@ add_executable(
 	source/lvk/canvas.hpp
 	source/lvk/app.cpp
 	source/lvk/app.hpp
+	source/lvk/channel.cpp
+	source/lvk/channel.hpp
+
+	source/lvk/apparatus.cpp
+	source/lvk/apparatus.hpp
 )
 
 #[[dependencies]]
