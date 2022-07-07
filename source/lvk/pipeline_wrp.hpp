@@ -9,7 +9,18 @@ namespace lvk
 {
 	struct pipeline_config_info
 	{
-
+		VkViewport viewport;
+		VkRect2D scissor;
+		VkPipelineViewportStateCreateInfo viewport_info;
+		VkPipelineInputAssemblyStateCreateInfo input_assembly_info;
+		VkPipelineRasterizationStateCreateInfo rasterization_info;
+		VkPipelineMultisampleStateCreateInfo multisample_info;
+		VkPipelineColorBlendAttachmentState color_blend_attachment;
+		VkPipelineColorBlendStateCreateInfo color_blend_info;
+		VkPipelineDepthStencilStateCreateInfo depth_stencil_info;
+		VkPipelineLayout pipeline_layout = nullptr;
+		VkRenderPass render_pass = nullptr;
+		uint32_t subpass = 0;
 	};
 
 	class pipeline_wrp
@@ -21,7 +32,7 @@ namespace lvk
 		static auto read_file(const std::string& file_path) -> std::vector<char>;
 
 		void create_graphics_pipeline(
-			const pipeline_config_info& config,
+			const pipeline_config_info& config_info,
 			const std::string& vert_path,
 			const std::string& frag_path
 		);
@@ -35,10 +46,7 @@ namespace lvk
 			const std::string& _vert_path,
 			const std::string& _frag_path
 		);
-		~pipeline_wrp()
-		{
-
-		};
+		~pipeline_wrp();
 
 		pipeline_wrp(const pipeline_wrp&) = delete;
 		pipeline_wrp& operator=(const pipeline_wrp&) = delete;
