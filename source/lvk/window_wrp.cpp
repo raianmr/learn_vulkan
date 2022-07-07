@@ -1,9 +1,9 @@
 #include <stdexcept>
-#include "canvas.hpp"
+#include "window_wrp.hpp"
 
 namespace lvk
 {
-	void canvas::init_window()
+	void window_wrp::init_window()
 	{
 		glfwInit();
 
@@ -16,27 +16,27 @@ namespace lvk
 		vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
 	}
 
-	canvas::canvas(int _width, int _height, const std::string& _window_name)
+	window_wrp::window_wrp(int _width, int _height, const std::string& _window_name)
 		: width{ _width }, height{ _height }, window_name{ _window_name }
 	{
 		init_window();
 	}
 
-	canvas::~canvas()
+	window_wrp::~window_wrp()
 	{
 		glfwDestroyWindow(window);
 		glfwTerminate();
 	}
 
-	bool canvas::should_close()
+	bool window_wrp::should_close()
 	{
 		return glfwWindowShouldClose(window);
 	}
-	void canvas::create_window_surface(VkInstance instance, VkSurfaceKHR* surface)
+	void window_wrp::create_window_surface(VkInstance instance, VkSurfaceKHR* surface)
 	{
 		if (glfwCreateWindowSurface(instance, window, nullptr, surface) != VK_SUCCESS)
 		{
-			throw std::runtime_error("failed to create window surface");
+			throw std::runtime_error("failed to create window get_surface");
 		}
 
 	}

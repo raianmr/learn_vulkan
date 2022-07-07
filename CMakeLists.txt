@@ -17,15 +17,14 @@ set(
 add_executable(
 	${PROJECT_NAME}
 	source/main.cpp
-	source/lvk/canvas.cpp
-	source/lvk/canvas.hpp
+	source/lvk/window_wrp.cpp
+	source/lvk/window_wrp.hpp
 	source/lvk/app.cpp
 	source/lvk/app.hpp
-	source/lvk/channel.cpp
-	source/lvk/channel.hpp
-
-	source/lvk/apparatus.cpp
-	source/lvk/apparatus.hpp
+	source/lvk/pipeline_wrp.cpp
+	source/lvk/pipeline_wrp.hpp
+	source/lvk/device_wrp.cpp
+	source/lvk/device_wrp.hpp
 )
 
 #[[dependencies]]

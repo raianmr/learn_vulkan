@@ -1,6 +1,6 @@
 #pragma once
 
-#include "canvas.hpp"
+#include "window_wrp.hpp"
 
 // std lib headers
 #include <string>
@@ -28,7 +28,7 @@ namespace lvk
 		}
 	};
 
-	class apparatus
+	class device_wrp
 	{
 	public:
 #ifdef NDEBUG
@@ -37,37 +37,37 @@ namespace lvk
 		const bool enable_validation_layers = true;
 #endif
 
-		apparatus(canvas& window);
-		~apparatus();
+		explicit device_wrp(window_wrp& _window);
+		~device_wrp();
 
 		// Not copyable or movable
-		apparatus(const apparatus&) = delete;
-		void operator=(const apparatus&) = delete;
-		apparatus(apparatus&&) = delete;
-		apparatus& operator=(apparatus&&) = delete;
+		device_wrp(const device_wrp&) = delete;
+		void operator=(const device_wrp&) = delete;
+		device_wrp(device_wrp&&) = delete;
+		device_wrp& operator=(device_wrp&&) = delete;
 
-		VkCommandPool getCommandPool()
+		VkCommandPool get_command_pool()
 		{
 			return command_pool;
 		}
-		VkDevice device()
+		VkDevice get_device()
 		{
-			return device_;
+			return device;
 		}
-		VkSurfaceKHR surface()
+		VkSurfaceKHR get_surface()
 		{
-			return surface_;
+			return surface;
 		}
-		VkQueue graphicsQueue()
+		VkQueue get_graphics_queue()
 		{
-			return graphics_queue_;
+			return graphics_queue;
 		}
-		VkQueue presentQueue()
+		VkQueue get_present_queue()
 		{
 			return present_queue;
 		}
 
-		swap_chain_support_details getSwapChainSupport()
+		swap_chain_support_details get_swap_chain_support()
 		{
 			return query_swap_chain_support(physical_device);
 		}
@@ -121,12 +121,12 @@ namespace lvk
 		VkInstance instance;
 		VkDebugUtilsMessengerEXT debug_messenger;
 		VkPhysicalDevice physical_device = VK_NULL_HANDLE;
-		canvas& window;
+		window_wrp& window;
 		VkCommandPool command_pool;
 
-		VkDevice device_;
-		VkSurfaceKHR surface_;
-		VkQueue graphics_queue_;
+		VkDevice device;
+		VkSurfaceKHR surface;
+		VkQueue graphics_queue;
 		VkQueue present_queue;
 
 		const std::vector<const char*> validation_layers = { "VK_LAYER_KHRONOS_validation" };

@@ -8,7 +8,7 @@
 
 namespace lvk
 {
-	class canvas
+	class window_wrp
 	{
 		int width, height;
 		std::string window_name;
@@ -17,11 +17,11 @@ namespace lvk
 		void init_window();
 
 	public:
-		canvas(int _width, int _height, const std::string& _window_name);
-		~canvas();
+		window_wrp(int _width, int _height, const std::string& _window_name);
+		~window_wrp();
 
-		canvas(const canvas&) = delete;
-		canvas& operator=(const canvas&) = delete;
+		window_wrp(const window_wrp&) = delete;
+		window_wrp& operator=(const window_wrp&) = delete;
 
 		bool should_close();
 		void create_window_surface(VkInstance instance, VkSurfaceKHR* surface);
