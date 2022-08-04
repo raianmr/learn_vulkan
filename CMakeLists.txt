@@ -25,6 +25,8 @@ add_executable(
 	source/lvk/pipeline_wrp.hpp
 	source/lvk/device_wrp.cpp
 	source/lvk/device_wrp.hpp
+	source/lvk/swap_chain_wrp.cpp
+	source/lvk/swap_chain_wrp.hpp
 )
 
 #[[dependencies]]
@@ -69,5 +71,5 @@ endforeach ()
 
 add_custom_target(SHADERS ALL DEPENDS ${SPV_BIN_FILES})
 
-# cmake won't do all that extra work unless you make it explicit
+# cmake won't do all that extra work unless it's explicitly stated
 add_dependencies(${PROJECT_NAME} SHADERS)

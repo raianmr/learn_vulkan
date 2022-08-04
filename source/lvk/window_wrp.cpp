@@ -16,7 +16,7 @@ namespace lvk
 		vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
 	}
 
-	window_wrp::window_wrp(int _width, int _height, const std::string& _window_name)
+	window_wrp::window_wrp(unsigned int _width, unsigned int _height, const std::string& _window_name)
 		: width{ _width }, height{ _height }, window_name{ _window_name }
 	{
 		init_window();
@@ -31,6 +31,10 @@ namespace lvk
 	bool window_wrp::should_close()
 	{
 		return glfwWindowShouldClose(window);
+	}
+	VkExtent2D window_wrp::get_extent()
+	{
+		return {width, height};
 	}
 	void window_wrp::create_window_surface(VkInstance instance, VkSurfaceKHR* surface)
 	{

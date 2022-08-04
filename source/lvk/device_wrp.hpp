@@ -2,7 +2,6 @@
 
 #include "window_wrp.hpp"
 
-// std lib headers
 #include <string>
 #include <vector>
 
@@ -37,14 +36,14 @@ namespace lvk
 		const bool enable_validation_layers = true;
 #endif
 
-		explicit device_wrp(window_wrp& _window);
+		explicit device_wrp(window_wrp &_window);
 		~device_wrp();
 
 		// Not copyable or movable
-		device_wrp(const device_wrp&) = delete;
-		void operator=(const device_wrp&) = delete;
-		device_wrp(device_wrp&&) = delete;
-		device_wrp& operator=(device_wrp&&) = delete;
+		device_wrp(const device_wrp &) = delete;
+		void operator=(const device_wrp &) = delete;
+		device_wrp(device_wrp &&) = delete;
+		device_wrp &operator=(device_wrp &&) = delete;
 
 		VkCommandPool get_command_pool()
 		{
@@ -76,16 +75,16 @@ namespace lvk
 		{
 			return find_queue_families(physical_device);
 		}
-		VkFormat findSupportedFormat(
-			const std::vector<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features);
+		VkFormat find_supported_format(
+			const std::vector<VkFormat> &candidates, VkImageTiling tiling, VkFormatFeatureFlags features);
 
 		// Buffer Helper Functions
 		void createBuffer(
 			VkDeviceSize size,
 			VkBufferUsageFlags usage,
 			VkMemoryPropertyFlags properties,
-			VkBuffer& buffer,
-			VkDeviceMemory& buffer_memory);
+			VkBuffer &buffer,
+			VkDeviceMemory &buffer_memory);
 		VkCommandBuffer begin_single_time_commands();
 		void end_single_time_commands(VkCommandBuffer command_buffer);
 		void copyBuffer(VkBuffer src_buffer, VkBuffer dst_buffer, VkDeviceSize size);
@@ -93,10 +92,10 @@ namespace lvk
 			VkBuffer buffer, VkImage image, uint32_t width, uint32_t height, uint32_t layer_count);
 
 		void createImageWithInfo(
-			const VkImageCreateInfo& image_info,
+			const VkImageCreateInfo &image_info,
 			VkMemoryPropertyFlags properties,
-			VkImage& image,
-			VkDeviceMemory& image_memory);
+			VkImage &image,
+			VkDeviceMemory &image_memory);
 
 		VkPhysicalDeviceProperties properties;
 
@@ -110,10 +109,10 @@ namespace lvk
 
 		// helper functions
 		bool is_device_suitable(VkPhysicalDevice device);
-		std::vector<const char*> get_required_extensions();
+		std::vector<const char *> get_required_extensions();
 		bool check_validation_layer_support();
 		queue_family_indices find_queue_families(VkPhysicalDevice device);
-		void populate_debug_messenger_create_info(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
+		void populate_debug_messenger_create_info(VkDebugUtilsMessengerCreateInfoEXT &createInfo);
 		void has_gflw_required_instance_extensions();
 		bool check_device_extension_support(VkPhysicalDevice device);
 		swap_chain_support_details query_swap_chain_support(VkPhysicalDevice device);
@@ -121,7 +120,7 @@ namespace lvk
 		VkInstance instance;
 		VkDebugUtilsMessengerEXT debug_messenger;
 		VkPhysicalDevice physical_device = VK_NULL_HANDLE;
-		window_wrp& window;
+		window_wrp &window;
 		VkCommandPool command_pool;
 
 		VkDevice device;
@@ -129,8 +128,8 @@ namespace lvk
 		VkQueue graphics_queue;
 		VkQueue present_queue;
 
-		const std::vector<const char*> validation_layers = { "VK_LAYER_KHRONOS_validation" };
-		const std::vector<const char*> device_extensions = { VK_KHR_SWAPCHAIN_EXTENSION_NAME };
+		const std::vector<const char *> validation_layers = {"VK_LAYER_KHRONOS_validation"};
+		const std::vector<const char *> device_extensions = {VK_KHR_SWAPCHAIN_EXTENSION_NAME};
 	};
 
-}  // namespace lvk
+} // namespace lvk

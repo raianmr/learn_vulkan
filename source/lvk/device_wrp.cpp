@@ -9,12 +9,12 @@
 namespace lvk
 {
 
-// local callback functions
+	// local callback functions
 	static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
 		VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
 		VkDebugUtilsMessageTypeFlagsEXT messageType,
-		const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
-		void* pUserData)
+		const VkDebugUtilsMessengerCallbackDataEXT *pCallbackData,
+		void *pUserData)
 	{
 		std::cerr << "validation layer: " << pCallbackData->pMessage << std::endl;
 
@@ -23,9 +23,9 @@ namespace lvk
 
 	VkResult CreateDebugUtilsMessengerEXT(
 		VkInstance instance,
-		const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo,
-		const VkAllocationCallbacks* pAllocator,
-		VkDebugUtilsMessengerEXT* pDebugMessenger)
+		const VkDebugUtilsMessengerCreateInfoEXT *pCreateInfo,
+		const VkAllocationCallbacks *pAllocator,
+		VkDebugUtilsMessengerEXT *pDebugMessenger)
 	{
 		auto func = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(
 			instance,
@@ -43,7 +43,7 @@ namespace lvk
 	void DestroyDebugUtilsMessengerEXT(
 		VkInstance instance,
 		VkDebugUtilsMessengerEXT debugMessenger,
-		const VkAllocationCallbacks* pAllocator)
+		const VkAllocationCallbacks *pAllocator)
 	{
 		auto func = (PFN_vkDestroyDebugUtilsMessengerEXT)vkGetInstanceProcAddr(
 			instance,
@@ -54,8 +54,8 @@ namespace lvk
 		}
 	}
 
-// class member functions
-	device_wrp::device_wrp(window_wrp& _window) : window{ _window }
+	// class member functions
+	device_wrp::device_wrp(window_wrp &_window) : window{_window}
 	{
 		create_instance();
 		setup_debug_messenger();
@@ -109,7 +109,7 @@ namespace lvk
 			createInfo.ppEnabledLayerNames = validation_layers.data();
 
 			populate_debug_messenger_create_info(debugCreateInfo);
-			createInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT*)&debugCreateInfo;
+			createInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT *)&debugCreateInfo;
 		}
 		else
 		{
@@ -137,7 +137,7 @@ namespace lvk
 		std::vector<VkPhysicalDevice> devices(deviceCount);
 		vkEnumeratePhysicalDevices(instance, &deviceCount, devices.data());
 
-		for (const auto& device : devices)
+		for (const auto &device : devices)
 		{
 			if (is_device_suitable(device))
 			{
@@ -160,7 +160,7 @@ namespace lvk
 		queue_family_indices indices = find_queue_families(physical_device);
 
 		std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
-		std::set<uint32_t> uniqueQueueFamilies = { indices.graphics_family, indices.present_family };
+		std::set<uint32_t> uniqueQueueFamilies = {indices.graphics_family, indices.present_family};
 
 		float queuePriority = 1.0f;
 		for (uint32_t queueFamily : uniqueQueueFamilies)
@@ -237,34 +237,35 @@ namespace lvk
 		bool swapChainAdequate = false;
 		if (extensionsSupported)
 		{
-			swap_chain_support_details swapChainSupport = query_swap_chain_support(device);
-			swapChainAdequate = !swapChainSupport.formats.empty() && !swapChainSupport.present_modes.empty();
+			swap_chain_support_details swap_chain_support = query_swap_chain_support(device);
+			swapChainAdequate = !swap_chain_support.formats.empty() && !swap_chain_support.present_modes.empty();
 		}
 
 		VkPhysicalDeviceFeatures supportedFeatures;
 		vkGetPhysicalDeviceFeatures(device, &supportedFeatures);
 
 		return indices.is_complete() && extensionsSupported && swapChainAdequate &&
-			supportedFeatures.samplerAnisotropy;
+			   supportedFeatures.samplerAnisotropy;
 	}
 
 	void device_wrp::populate_debug_messenger_create_info(
-		VkDebugUtilsMessengerCreateInfoEXT& createInfo)
+		VkDebugUtilsMessengerCreateInfoEXT &createInfo)
 	{
 		createInfo = {};
 		createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
 		createInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT |
-			VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
+									 VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
 		createInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT |
-			VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT |
-			VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
+								 VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT |
+								 VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
 		createInfo.pfnUserCallback = debugCallback;
-		createInfo.pUserData = nullptr;  // Optional
+		createInfo.pUserData = nullptr; // Optional
 	}
 
 	void device_wrp::setup_debug_messenger()
 	{
-		if (!enable_validation_layers) return;
+		if (!enable_validation_layers)
+			return;
 		VkDebugUtilsMessengerCreateInfoEXT createInfo;
 		populate_debug_messenger_create_info(createInfo);
 		if (CreateDebugUtilsMessengerEXT(instance, &createInfo, nullptr, &debug_messenger) != VK_SUCCESS)
@@ -281,11 +282,11 @@ namespace lvk
 		std::vector<VkLayerProperties> availableLayers(layerCount);
 		vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
 
-		for (const char* layerName : validation_layers)
+		for (const char *layerName : validation_layers)
 		{
 			bool layerFound = false;
 
-			for (const auto& layerProperties : availableLayers)
+			for (const auto &layerProperties : availableLayers)
 			{
 				if (strcmp(layerName, layerProperties.layerName) == 0)
 				{
@@ -303,13 +304,13 @@ namespace lvk
 		return true;
 	}
 
-	std::vector<const char*> device_wrp::get_required_extensions()
+	std::vector<const char *> device_wrp::get_required_extensions()
 	{
 		uint32_t glfwExtensionCount = 0;
-		const char** glfwExtensions;
+		const char **glfwExtensions;
 		glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
 
-		std::vector<const char*> extensions(glfwExtensions, glfwExtensions + glfwExtensionCount);
+		std::vector<const char *> extensions(glfwExtensions, glfwExtensions + glfwExtensionCount);
 
 		if (enable_validation_layers)
 		{
@@ -328,7 +329,7 @@ namespace lvk
 
 		std::cout << "available extensions:" << std::endl;
 		std::unordered_set<std::string> available;
-		for (const auto& extension : extensions)
+		for (const auto &extension : extensions)
 		{
 			std::cout << "\t" << extension.extensionName << std::endl;
 			available.insert(extension.extensionName);
@@ -336,7 +337,7 @@ namespace lvk
 
 		std::cout << "required extensions:" << std::endl;
 		auto requiredExtensions = get_required_extensions();
-		for (const auto& required : requiredExtensions)
+		for (const auto &required : requiredExtensions)
 		{
 			std::cout << "\t" << required << std::endl;
 			if (available.find(required) == available.end())
@@ -360,7 +361,7 @@ namespace lvk
 
 		std::set<std::string> requiredExtensions(device_extensions.begin(), device_extensions.end());
 
-		for (const auto& extension : availableExtensions)
+		for (const auto &extension : availableExtensions)
 		{
 			requiredExtensions.erase(extension.extensionName);
 		}
@@ -379,7 +380,7 @@ namespace lvk
 		vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, queueFamilies.data());
 
 		int i = 0;
-		for (const auto& queueFamily : queueFamilies)
+		for (const auto &queueFamily : queueFamilies)
 		{
 			if (queueFamily.queueCount > 0 && queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT)
 			{
@@ -433,8 +434,8 @@ namespace lvk
 		return details;
 	}
 
-	VkFormat device_wrp::findSupportedFormat(
-		const std::vector<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features)
+	VkFormat device_wrp::find_supported_format(
+		const std::vector<VkFormat> &candidates, VkImageTiling tiling, VkFormatFeatureFlags features)
 	{
 		for (VkFormat format : candidates)
 		{
@@ -474,8 +475,8 @@ namespace lvk
 		VkDeviceSize size,
 		VkBufferUsageFlags usage,
 		VkMemoryPropertyFlags properties,
-		VkBuffer& buffer,
-		VkDeviceMemory& buffer_memory)
+		VkBuffer &buffer,
+		VkDeviceMemory &buffer_memory)
 	{
 		VkBufferCreateInfo buffer_info{};
 		buffer_info.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
@@ -543,8 +544,8 @@ namespace lvk
 		VkCommandBuffer command_buffer = begin_single_time_commands();
 
 		VkBufferCopy copy_region{};
-		copy_region.srcOffset = 0;  // Optional
-		copy_region.dstOffset = 0;  // Optional
+		copy_region.srcOffset = 0; // Optional
+		copy_region.dstOffset = 0; // Optional
 		copy_region.size = size;
 		vkCmdCopyBuffer(command_buffer, src_buffer, dst_buffer, 1, &copy_region);
 
@@ -566,8 +567,8 @@ namespace lvk
 		region.imageSubresource.baseArrayLayer = 0;
 		region.imageSubresource.layerCount = layer_count;
 
-		region.imageOffset = { 0, 0, 0 };
-		region.imageExtent = { width, height, 1 };
+		region.imageOffset = {0, 0, 0};
+		region.imageExtent = {width, height, 1};
 
 		vkCmdCopyBufferToImage(
 			command_buffer,
@@ -580,10 +581,10 @@ namespace lvk
 	}
 
 	void device_wrp::createImageWithInfo(
-		const VkImageCreateInfo& image_info,
+		const VkImageCreateInfo &image_info,
 		VkMemoryPropertyFlags properties,
-		VkImage& image,
-		VkDeviceMemory& image_memory)
+		VkImage &image,
+		VkDeviceMemory &image_memory)
 	{
 		if (vkCreateImage(device, &image_info, nullptr, &image) != VK_SUCCESS)
 		{
@@ -609,4 +610,4 @@ namespace lvk
 		}
 	}
 
-}  // namespace lvk
+} // namespace lvk
