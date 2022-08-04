@@ -46,7 +46,7 @@ namespace lvk
 
 		VkPipelineShaderStageCreateInfo shader_stages[2];
 
-		shader_stages[0].sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
+		shader_stages[0].sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
 		shader_stages[0].stage = VK_SHADER_STAGE_VERTEX_BIT;
 		shader_stages[0].module = vert_shader_module;
 		shader_stages[0].pName = "main";
@@ -54,7 +54,7 @@ namespace lvk
 		shader_stages[0].pNext = nullptr;
 		shader_stages[0].pSpecializationInfo = nullptr;
 
-		shader_stages[1].sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
+		shader_stages[1].sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
 		shader_stages[1].stage = VK_SHADER_STAGE_FRAGMENT_BIT;
 		shader_stages[1].module = frag_shader_module;
 		shader_stages[1].pName = "main";
