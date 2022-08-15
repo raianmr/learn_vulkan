@@ -217,4 +217,8 @@ namespace lvk
 		return config_info;
 	}
 
+	void pipeline_wrp::bind(VkCommandBuffer commandBuffer) {
+  		vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphics_pipeline);
+	}
+
 }

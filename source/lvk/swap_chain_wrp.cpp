@@ -144,16 +144,16 @@ namespace lvk
       image_count = swap_chain_support.capabilities.maxImageCount;
     }
 
-    VkSwapchainCreateInfoKHR create_info = {};
-    create_info.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
-    create_info.surface = device.get_surface();
-
-    create_info.minImageCount = image_count;
-    create_info.imageFormat = surface_format.format;
-    create_info.imageColorSpace = surface_format.colorSpace;
-    create_info.imageExtent = extent;
-    create_info.imageArrayLayers = 1;
-    create_info.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
+    auto create_info = VkSwapchainCreateInfoKHR{
+		.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR,
+		.surface = device.get_surface(),
+		.minImageCount = image_count,
+		.imageFormat = surface_format.format,
+		.imageColorSpace = surface_format.colorSpace,
+		.imageExtent = extent,
+		.imageArrayLayers = 1,
+		.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT,
+	};
 
     queue_family_indices indices = device.find_physical_queue_families();
     uint32_t queueFamilyIndices[] = {indices.graphics_family, indices.present_family};
@@ -201,16 +201,20 @@ namespace lvk
     swap_chain_image_views.resize(swap_chain_images.size());
     for (size_t i = 0; i < swap_chain_images.size(); i++)
     {
-      VkImageViewCreateInfo viewInfo{};
-      viewInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
-      viewInfo.image = swap_chain_images[i];
-      viewInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
-      viewInfo.format = swap_chain_image_format;
-      viewInfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-      viewInfo.subresourceRange.baseMipLevel = 0;
-      viewInfo.subresourceRange.levelCount = 1;
-      viewInfo.subresourceRange.baseArrayLayer = 0;
-      viewInfo.subresourceRange.layerCount = 1;
+      auto viewInfo = VkImageViewCreateInfo{
+		  .sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO,
+		  .image = swap_chain_images[i],
+		  .viewType = VK_IMAGE_VIEW_TYPE_2D,
+		  .format = swap_chain_image_format,
+		  .subresourceRange{
+			  .aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
+			  .baseMipLevel = 0,
+			  .levelCount = 1,
+			  .baseArrayLayer = 0,
+			  .layerCount = 1,
+		  }
+	  };
+
 
       if (vkCreateImageView(device.get_device(), &viewInfo, nullptr, &swap_chain_image_views[i]) !=
           VK_SUCCESS)

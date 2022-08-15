@@ -53,6 +53,7 @@ namespace lvk
 
 		static auto default_pipeline_config_info(uint32_t width, uint32_t height) -> pipeline_config_info;
 
+		void bind(VkCommandBuffer commandBuffer);
 	};
 
 }
